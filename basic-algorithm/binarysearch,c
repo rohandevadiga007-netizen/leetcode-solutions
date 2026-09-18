@@ -1,0 +1,43 @@
+#include <stdio.h>
+
+int search(int* nums, int numsSize, int target) {
+    int left = 0;
+    int right = numsSize - 1;
+
+    // Iterative binary search: O(log n) time, O(1) space
+    while (left <= right) {
+        // Avoid potential integer overflow compared to (left + right) / 2
+        int mid = left + (right - left) / 2;
+
+        if (nums[mid] == target) {
+            return mid;
+        } else if (nums[mid] < target) {
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+
+    return -1; // Target not found
+}
+
+// Local Test Cases
+int main() {
+    // Test Case 1: Standard case (target present)
+    int nums1[] = {-1, 0, 3, 5, 9, 12};
+    int size1 = sizeof(nums1) / sizeof(nums1[0]);
+    int target1 = 9;
+    printf("Test 1 (target 9) - Expected: 4, Got: %d\n", search(nums1, size1, target1));
+
+    // Test Case 2: Edge case (target not present)
+    int target2 = 2;
+    printf("Test 2 (target 2) - Expected: -1, Got: %d\n", search(nums1, size1, target2));
+
+    // Test Case 3: Edge case (single-element array, match)
+    int nums3[] = {5};
+    int size3 = sizeof(nums3) / sizeof(nums3[0]);
+    int target3 = 5;
+    printf("Test 3 (target 5 in [5]) - Expected: 0, Got: %d\n", search(nums3, size3, target3));
+
+    return 0;
+}
